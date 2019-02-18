@@ -1,0 +1,2 @@
+14 14 14 2 * /bin/bash ~/soal1.sh
+14 14 * 2 5  /bin/bash ~/soal1.sh
