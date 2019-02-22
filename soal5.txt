@@ -1,0 +1,1 @@
+2-30/6 * * * * /bin/bash ~/SISOP/modul1/SoalShift_modul1_A13/soal5.sh

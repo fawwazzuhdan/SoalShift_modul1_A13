@@ -1,2 +1,2 @@
-14 14 14 2 * /bin/bash ~/soal1.sh
-14 14 * 2 5  /bin/bash ~/soal1.sh
+14 14 14 2 * /bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh
+14 14 * 2 5  /bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh
