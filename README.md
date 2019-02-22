@@ -25,7 +25,7 @@ Pertama-tama atur konfigurasi crontab terlebih dahulu. Untuk mengatur konfiguras
 14 14 14 2 * /bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh
 14 14 * 2 5  /bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh
 ```
-Baris pertama untuk menjalankan script ```/bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh``` setiap jam 14:14 pada tanggal 14 februari. sedangkan baris kedua untuk menjalankan script ```/bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh``` setiap jam 14:14 di hari jumat pada bulan februari. Setelah mengatur konfigurasi crontab download file nature.zip di google drive terlebih dahulu. Isi dari script [soal1.sh](soal1.sh) adalah
+Baris pertama untuk menjalankan script ```/bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh``` setiap jam 14:14 pada tanggal 14 februari. sedangkan baris kedua untuk menjalankan script ```/bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh``` setiap jam 14:14 di hari jumat pada bulan februari. Setelah mengatur konfigurasi crontab download file nature.zip di google drive terlebih dahulu setelah itu di-ekstrak menggunakan syntax ```unzip nature.zip```. Isi dari script [soal1.sh](soal1.sh) adalah
 ```
 #!/bin/bash
 
@@ -57,6 +57,7 @@ Syntax dibawah ini digunakan untuk merubah file lama dengan file yang baru denga
 rm "$foto"
 mv "$foto""sementara" "$foto"
 ```
+Setelah semua file ter-dekripsi, *archive* semua file tersebut
 
 ## Nomor 2
 **Soal**
