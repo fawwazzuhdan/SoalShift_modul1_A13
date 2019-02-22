@@ -243,6 +243,23 @@ d. Backup file syslog setiap jam.
 e. dan buatkan juga bash script untuk dekripsinya.
 
 **Jawaban :**
+Pertama-tama atur konfigurasi crontab terlebih dahulu. Untuk mengatur konfigurasi crontrab. bisa mengetikkan command crontab -e di terminal. Kemudian tambahkan isi file dari soal4.txt ke konfigurasi crontab tersebut. Isi dari file soal4.txt adalah
+```
+0 * * * * /bin/bash ~/SISOP/modul1/SoalShift_modul1_A13/soal4.sh
+```
+Isi dari script [soal4.sh](soal4.sh) adalah
+```
+#!/bin/bash
+
+nama=$(date '+%H:%M %d-%m-%Y')
+id=$(date '+%H')
+
+besar=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+kecil=abcdefghijklmnopqrstuvwxyz
+
+awk '{a[$0]} END{for (i in a) print i}' /var/log/syslog | tr "$besar$kecil" "${besar:id}${besar:0:id}${kecil:id}${kecil:0:id}" > ~/SISOP/modul1/"$nama".txt
+```
+Syntax ```nama=$(date '+%H:%M %d-%m-%Y')``` untuk mendapatkan waktu ketika script berjalan agar digunakan untuk penamaan file. Syntax ```id=$(date '+%H')``` untuk mendapatkan jam agar digunakan menjadi *caesar cipher*. Hasil dari enkripsi tersebut disimpan di file dengan nama yang telah didapatkan sebelumnya.
 
 
 ## Nomor 5

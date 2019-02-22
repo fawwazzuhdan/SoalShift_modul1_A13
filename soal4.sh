@@ -1,5 +1,8 @@
 #!/bin/bash
 
+nama=$(date '+%H:%M %d-%m-%Y')
+id=$(date '+%H')
+
 besar=ABCDEFGHIJKLMNOPQRSTUVWXYZ
 kecil=abcdefghijklmnopqrstuvwxyz
 

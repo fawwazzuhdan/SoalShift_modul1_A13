@@ -1,0 +1,1 @@
+0 * * * * /bin/bash ~/SISOP/modul1/SoalShift_modul1_A13/soal4.sh
