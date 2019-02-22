@@ -1,9 +1,9 @@
 # SoalShift_modul1_A13
   - [Nomor 1](#nomor-1)
   - [Nomor 2](#nomor-2)
-    - [a.](#a.)
-    - [b.](#b.)
-    - [c.](#c.)
+    - [a.](#a)
+    - [b.](#b)
+    - [c.](#c)
   - [Nomor 3](#nomor-3)
   - [Nomor 4](#nomor-4)
   - [Nomor 5](#nomor-5)
