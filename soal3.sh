@@ -21,9 +21,9 @@ fungsi_random
 out='a'
 while [[ $out ]]
 do
-	for file in sementara*
+	for file in password*
 	do
-		out=$(grep -f sementara1.txt $file)	
+		out=$(grep -f password$.txt $file)	
 		if [[ $out ]]; then
 			fungsi_random
 			break
