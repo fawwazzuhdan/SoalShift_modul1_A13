@@ -243,6 +243,9 @@ d. Backup file syslog setiap jam.
 e. dan buatkan juga bash script untuk dekripsinya.
 
 **Jawaban :**
+
+**backup & enkripsi**
+
 Pertama-tama atur konfigurasi crontab terlebih dahulu. Untuk mengatur konfigurasi crontrab. bisa mengetikkan command crontab -e di terminal. Kemudian tambahkan isi file dari soal4.txt ke konfigurasi crontab tersebut. Isi dari file soal4.txt adalah
 ```
 0 * * * * /bin/bash ~/SISOP/modul1/SoalShift_modul1_A13/soal4.sh
@@ -259,7 +262,24 @@ kecil=abcdefghijklmnopqrstuvwxyz
 
 awk '{a[$0]} END{for (i in a) print i}' /var/log/syslog | tr "$besar$kecil" "${besar:id}${besar:0:id}${kecil:id}${kecil:0:id}" > ~/SISOP/modul1/"$nama".txt
 ```
-Syntax ```nama=$(date '+%H:%M %d-%m-%Y')``` untuk mendapatkan waktu ketika script berjalan agar digunakan untuk penamaan file. Syntax ```id=$(date '+%H')``` untuk mendapatkan jam agar digunakan menjadi *caesar cipher*. Hasil dari enkripsi tersebut disimpan di file dengan nama yang telah didapatkan sebelumnya.
+Syntax ```nama=$(date '+%H:%M %d-%m-%Y')``` untuk mendapatkan waktu ketika script berjalan agar digunakan untuk penamaan file. Syntax ```id=$(date '+%H')``` untuk mendapatkan jam agar digunakan menjadi *cipher key*. Hasil dari enkripsi tersebut disimpan di file dengan nama yang telah didapatkan sebelumnya.
+
+**dekripsi**
+
+Menjalankan script [soal4_dekripsi.sh](soal4_dekripsi.sh). Isi dari script tersebut adalah
+```
+#!/bin/bash
+
+besar=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+kecil=abcdefghijklmnopqrstuvwxyz
+
+kata=$(echo $1 | awk -F ':' '{print $1}')
+
+cd ~/SISOP/modul1
+
+cat "$1" | tr "${besar:kata}${besar:0:kata}${kecil:kata}${kecil:0:kata}" "$besar$kecil" > ~/SISOP/modul1/"$1"_dekripsi.txt
+```
+Ambil jam pada nama file yang ingin didekripsi agar digunakan sebagai *cipher key* menggunakan syntax ```awk -F ':' '{print $1}'``` dengan parameter nama filenya. Kemudian dekripsi menggukan script [soal4_dekripsi.sh](soal4_dekripsi.sh). Kemudian simpan hasil tersebut dalam file txt
 
 
 ## Nomor 5
