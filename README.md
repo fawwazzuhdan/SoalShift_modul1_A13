@@ -14,18 +14,16 @@
 Anda diminta tolong oleh teman anda untuk mengembalikan filenya yang telah
 dienkripsi oleh seseorang menggunakan bash script, file yang dimaksud adalah
 nature.zip. Karena terlalu mudah kalian memberikan syarat akan membuka seluruh
-file tersebut jika pukul 14:14 pada tanggal 14 Februari atau hari tersebut adalah hari
-jumat pada bulan Februari.
+file tersebut jika pukul 14:14 pada tanggal 14 Februari atau hari tersebut adalah hari jumat pada bulan Februari.
 Hint: Base64, Hexdump
 
 **Jawaban :**
 
 Pertama-tama atur konfigurasi crontab terlebih dahulu. Untuk mengatur konfigurasi crontrab. bisa mengetikkan command ``` crontab -e``` di terminal. Kemudian tambahkan isi file dari [soal1.txt](soal1.txt) ke konfigurasi crontab tersebut. Isi dari file soal1.txt adalah
 ```
-14 14 14 2 * /bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh
-14 14 * 2 5  /bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh
+14 14 14 2 5 /bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh
 ```
-Baris pertama untuk menjalankan script ```/bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh``` setiap jam 14:14 pada tanggal 14 februari. sedangkan baris kedua untuk menjalankan script ```/bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh``` setiap jam 14:14 di hari jumat pada bulan februari. Setelah mengatur konfigurasi crontab download file nature.zip di google drive terlebih dahulu setelah itu di-ekstrak menggunakan syntax ```unzip nature.zip```. Isi dari script [soal1.sh](soal1.sh) adalah
+Baris diatas untuk menjalankan script ```/bin/bash ~/SISOP/SoalShift_modul1_A13/soal1.sh``` setiap jam 14:14 pada tanggal 14 februari atau atau hari tersebut adalah hari jumat pada bulan Februari. Setelah mengatur konfigurasi crontab download file nature.zip di google drive terlebih dahulu setelah itu di-ekstrak menggunakan syntax ```unzip nature.zip```. Isi dari script [soal1.sh](soal1.sh) adalah
 ```
 #!/bin/bash
 
@@ -82,7 +80,7 @@ Jalankan script [soal2.sh](soal2.sh) dengan menngetikkan command ```/bin/bash ~/
 
 cd ~/Downloads
 
-negara=$(awk -F ',' '{ if ($7 == 2012) {a[$1] += $10}} END{for (i in a) print i}' WA_Sales_Products_2012-14.csv | sort -rV | head -n 1)
+negara=$((awk -F ',' '{ if ($7 == 2012) {a[$1] += $10}} END{for (i in a) print a[i] "," i}' WA_Sales_Products_2012-14.csv | sort -nr | head -n 1) | awk -F ',' '{print $2}')
 
 #a.
 echo "Jawaban 2.a"
@@ -91,8 +89,10 @@ echo -e "\n"
 
 #b.
 echo "Jawaban 2.b"
-produk=$(awk -F ',' -v negara="$negara" '{ if (($7 == 2012) && ($1~negara)) {a[$4] += $10}} END{for (i in a) print i ","}' WA_Sales_Products_2012-14.csv | sort -rV | head -n 3)
-echo $produk | awk -F ',' '{print $1 $2 $3}' 
+produk=$(awk -F ',' -v negara="$negara" '{ if (($7 == 2012) && ($1~negara)) {a[$4] += $10}} END{for (i in a) print a[i] "," i ","}' WA_Sales_Products_2012-14.csv | sort -nr | head -n 3 | awk -F ',' '{print $2 $4 $6}')
+
+awk -F ',' -v negara="$negara" '{ if (($7 == 2012) && ($1~negara)) {a[$4] += $10}} END{for (i in a) print a[i] "," i ","}' WA_Sales_Products_2012-14.csv | sort -nr | head -n 3 | awk -F ',' '{print $2 $4 $6}'
+ 
 
 produk1=$(echo $produk | awk -F ',' '{print $1}')
 produk2=$(echo $produk | awk -F ',' '{print $2}')
@@ -101,20 +101,20 @@ produk3=$(echo $produk | awk -F ',' '{print $3}')
 echo -e "\n"
 #c
 echo "Jawaban 2.c"
-awk -F ',' -v negara="$negara" -v produk1="$produk1" -v produk2="$produk2" -v produk3="$produk3" '{ if (($7 == 2012) && ($1~negara) && (($4~produk1) || ($4~produk2) || ($4~produk3))) {a[$6] += $10}} END{for (i in a) print i}' WA_Sales_Products_2012-14.csv | sort -rV | head -n 3
+awk -F ',' -v negara="$negara" -v produk1="$produk1" -v produk2="$produk2" -v produk3="$produk3" '{ if (($7 == 2012) && ($1~negara) && (($4~produk1) || ($4~produk2) || ($4~produk3))) {a[$6] += $10}} END{for (i in a) print a[i] "," i ","}' WA_Sales_Products_2012-14.csv | sort -nr | head -n 3 | awk -F ',' '{print $2 $4 $6}'
 ```
 ### a.
 Fungsi dari syntax dibawah ini adalah untuk mendapatkan nama negara yang memiliki total penjualan(quantity) terbanyak pada tahun 2012
 ```
-negara=$(awk -F ',' '{ if ($7 == 2012) {a[$1] += $10}} END{for (i in a) print i}' WA_Sales_Products_2012-14.csv | sort -rV | head -n 1)
+negara=$((awk -F ',' '{ if ($7 == 2012) {a[$1] += $10}} END{for (i in a) print a[i] "," i}' WA_Sales_Products_2012-14.csv | sort -nr | head -n 1) | awk -F ',' '{print $2}')
 ```
-Syntax ```if ($7 == 2012) {a[$1] += $10}``` untuk menjumlahkan penjualan(quantity) tiap negara pada tahun 2012. Syntax ```for (i in a) print i``` untuk mencetak seluruh negara yang memenuhi sayrat sebelumnya. Syntax ```sort -rV``` untuk mengurutkan semua negara berdasarkan angka (total penjualan(quantity)) dari tertinggi ke rendah. Syntax ```head -n 1``` untuk mencetak baris sebanyak 1 baris dari atas.
+Syntax ```if ($7 == 2012) {a[$1] += $10}``` untuk menjumlahkan penjualan(quantity) tiap negara pada tahun 2012. Syntax ```for (i in a) print a[i] "," i ","``` untuk mencetak total penjualan(quantity) per negara dan seluruh negara yang memenuhi sayrat sebelumnya. Syntax ```sort -nr``` untuk mengurutkan semua negara berdasarkan angka (total penjualan(quantity)) dari tertinggi ke rendah. Syntax ```head -n 1``` untuk mencetak baris sebanyak 1 baris dari atas. Setelah itu ambil nama negaranya dengan syntax ```awk -F ',' '{print $2}'```.
 ### b.
 Hampir sama dengan poin a, adanya tambahan syarat sesuai poin a yaitu syarat negaranya harus jawaban dari poin a. 
 ```
-produk=$(awk -F ',' -v negara="$negara" '{ if (($7 == 2012) && ($1~negara)) {a[$4] += $10}} END{for (i in a) print i ","}' WA_Sales_Products_2012-14.csv | sort -rV | head -n 3)
+awk -F ',' -v negara="$negara" '{ if (($7 == 2012) && ($1~negara)) {a[$4] += $10}} END{for (i in a) print a[i] "," i ","}' WA_Sales_Products_2012-14.csv | sort -nr | head -n 3 | awk -F ',' '{print $2 $4 $6}'
 ```
-Syntax ```-v negara="$negara"``` digunakan untuk memasukkan variabel ke dalam comman awk. Syntax ```print i ","``` berfungsi untuk menjadikan koma(",") sebagai *field separator* agar bisa digunakan untuk poin c.Karena hasilnya satu baris maka tiap kolom dipisahkan dengan koma(","). Setelah itu mencetak semua kolom menggunakan syntax ```echo $produk | awk -F ',' '{print $1 $2 $3}'```. Syntax ```head -n 3``` untuk mencetak baris sebanyak 3 baris dari atas.
+Syntax ```-v negara="$negara"``` digunakan untuk memasukkan variabel ke dalam comman awk. Syntax ```print a[i] "," i ","``` berfungsi untuk menjadikan koma(",") sebagai *field separator* agar bisa digunakan untuk poin c.Karena hasilnya satu baris maka tiap kolom dipisahkan dengan koma(","). Kemudian diurutkan yang memiliki total penjualan(quantity) dari terbesar ke terkecil menggunakan syntax ```sort -nr```. Setelah itu diambil 3 baris dari atas menggunakan syntax ```head -n 3```. Kemudian cetak semua produk menggunakan syntax ```awk -F ',' '{print $2 $4 $6}'```.
 
 Syntax dibawah ini untuk mendapatkan *product_line* tiap kolom kemudian disimpan dalam variabel
 ```
@@ -126,7 +126,7 @@ produk3=$(echo $produk | awk -F ',' '{print $3}')
 ### c.
 Hampir sama dengan poin b, adanya tambahan syarat sesuai poin b yaitu syarat *product line* harus berdasarkan yang didapatkan dari poin b
 ```
-awk -F ',' -v negara="$negara" -v produk1="$produk1" -v produk2="$produk2" -v produk3="$produk3" '{ if (($7 == 2012) && ($1~negara) && (($4~produk1) || ($4~produk2) || ($4~produk3))) {a[$6] += $10}} END{for (i in a) print i}' WA_Sales_Products_2012-14.csv | sort -rV | head -n 3
+awk -F ',' -v negara="$negara" -v produk1="$produk1" -v produk2="$produk2" -v produk3="$produk3" '{ if (($7 == 2012) && ($1~negara) && (($4~produk1) || ($4~produk2) || ($4~produk3))) {a[$6] += $10}} END{for (i in a) print a[i] "," i ","}' WA_Sales_Products_2012-14.csv | sort -nr | head -n 3 | awk -F ',' '{print $2 $4 $6}'
 ```
 Penjelasan hampir sama dengan poin b, adanya tambahan variabel yang didapatkan dari poin b agar memenuhi syarat yang diinginkan.
 
@@ -175,7 +175,7 @@ while [[ $out ]]
 do
 	for file in password*
 	do
-		out=$(grep -f password$.txt $file)	
+		out=$(grep -f sementara.txt $file)	
 		if [[ $out ]]; then
 			fungsi_random
 			break
@@ -213,7 +213,7 @@ while [[ $out ]]
 do
 	for file in password*
 	do
-		out=$(grep -f password$.txt $file)	
+		out=$(grep -f sementara.txt $file)	
 		if [[ $out ]]; then
 			fungsi_random
 			break
@@ -280,7 +280,7 @@ cd ~/SISOP/modul1
 
 cat "$1" | tr "${besar:kata}${besar:0:kata}${kecil:kata}${kecil:0:kata}" "$besar$kecil" > ~/SISOP/modul1/"$1"_dekripsi.txt
 ```
-Ambil jam pada nama file yang ingin didekripsi agar digunakan sebagai *cipher key* menggunakan syntax ```awk -F ':' '{print $1}'``` dengan parameter nama filenya. Kemudian dekripsi menggukan script [soal4_dekripsi.sh](soal4_dekripsi.sh). Kemudian simpan hasil tersebut dalam file txt
+Ambil jam pada nama file yang ingin didekripsi menggunakan command ```echo $1``` dengan argumen nama filenya setelah itu menggunakan syntax ```awk -F ':' '{print $1}'``` agar digunakan sebagai *cipher key* . Kemudian dekripsi menggukan script [soal4_dekripsi.sh](soal4_dekripsi.sh). Kemudian simpan hasil tersebut dalam file txt dengan nama file tersebut.
 
 
 ## Nomor 5
@@ -314,6 +314,6 @@ Isi dari script [soal5.sh](soal5.sh) adalah
 
 cd ~/SISOP/modul1/SoalShift_modul1_A13
 
-awk 'BEGIN{IGNORECASE=1} { if (NF < 13) print $0}' /var/log/syslog > ~/SISOP/modul1/logs.txt
+awk 'BEGIN{IGNORECASE=1} (!/sudo/ && (/cron/ || /CRON/) ) { if (NF < 13) print $0}' /var/log/syslog > ~/SISOP/modul1/logs.txt
 ```
-Syntax ```BEGIN{IGNORECASE=1}``` berfungsi agar tidak terjadi sensitive case. Syntax ```if (NF < 13) print $0}``` berfungsi untuk mencetak suatu baris yang memiliki *number of field* kurang dari 13. Setelah mendapatkan baris dari file ```/var/log/syslog``` yang memenuhi syarat, kemudian akan disimpan di file yang memiliki *fullpath* ```~/SISOP/modul1/logs.txt```
+Syntax ```BEGIN{IGNORECASE=1}``` berfungsi agar tidak terjadi sensitive case. Syntanx ```!/sudo/ && (/cron/ || /CRON/)``` berfungsi untung mengambil baris yg mengandung kata ***CRON*** tetapi tidang mengandung kata ***sudo*** Syntax ```if (NF < 13) print $0}``` berfungsi untuk mencetak suatu baris yang memiliki *number of field* kurang dari 13. Setelah mendapatkan baris dari file ```/var/log/syslog``` yang memenuhi syarat, kemudian akan disimpan di file yang memiliki *fullpath* ```~/SISOP/modul1/logs.txt```

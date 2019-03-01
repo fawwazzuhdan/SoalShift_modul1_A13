@@ -23,7 +23,7 @@ while [[ $out ]]
 do
 	for file in password*
 	do
-		out=$(grep -f password$.txt $file)	
+		out=$(grep -f sementara.txt $file)	
 		if [[ $out ]]; then
 			fungsi_random
 			break
